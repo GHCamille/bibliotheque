@@ -1,6 +1,6 @@
 #include "dialog_ajouter_livre.h"
 #include "ui_dialog_ajouter_livre.h"
-#include "persistentattribute.h"
+#include "persistentobject.h"
 
 Dialog_ajouter_livre::Dialog_ajouter_livre(QWidget *parent) :
     QDialog(parent),
@@ -17,10 +17,34 @@ Dialog_ajouter_livre::~Dialog_ajouter_livre()
 
 void Dialog_ajouter_livre::infos_nouveau_livre()
 {
-    QString auteur = ui->lineEdit->text();
-    QString titre = ui->lineEdit_2->text();
-    QString isbn = ui->lineEdit_3->text();
-    QString string_annee = ui->lineEdit_4->text();
-    int annee = string_annee.toInt();
-    //QList<persistentAttribute *> livre =
+//    QString user_input_auteur = ui->lineEdit->text();
+//    QString user_input_titre = ui->lineEdit_2->text();
+//    QString user_input_isbn = ui->lineEdit_3->text();
+//    QString user_input_string_annee = ui->lineEdit_4->text();
+//    int user_input_int_annee = user_input_string_annee.toInt();
+
+
+
+    //QString *point_auteur = new QString(user_input_auteur);
+   // QString *point_titre = new QString(user_input_titre);
+    //QString *point_isbn = new QString(user_input_isbn);
+    //int *point_annee = new int(user_input_int_annee);
+    //QString str = "Hello world";
+    //QChar *point_auteur = user_input_auteur.data();
+
+    //persistentAttribute auteur(QString("auteur"),QVariant::String, point_auteur);
+    //persistentAttribute titre(QString("titre"),QVariant::String, point_titre);
+    //persistentAttribute isbn(QString("isbn"),QVariant::String, point_isbn);
+    //persistentAttribute annee(QString("annee"),QVariant::Int, &user_input_int_annee);
+
+    // void * = A pointer to void is a "generic" pointer type.
+    // A void * can be converted to any other pointer type without an explicit cast.
+    // You cannot dereference a void * or do pointer arithmetic with it; you must
+    // convert it to a pointer to a complete data type first.
+
+//    persistentObject livre(QString("livre"));
+//    livre.addAttribute(auteur);
+//    livre.addAttribute(titre);
+//    livre.addAttribute(isbn);
+//    livre.addAttribute(annee);
 }

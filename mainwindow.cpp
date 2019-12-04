@@ -1,7 +1,6 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "persistentobject.h"
-#include "livre.h"
 #include "dialog_ajouter_livre.h"
 #include "ui_dialog_ajouter_livre.h"
 

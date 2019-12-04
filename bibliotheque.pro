@@ -29,15 +29,13 @@ SOURCES += \
         mainwindow.cpp \
     persistentobject.cpp \
     persistentattribute.cpp \
-    dialog_ajouter_livre.cpp \
-    livre.cpp
+    dialog_ajouter_livre.cpp
 
 HEADERS += \
         mainwindow.h \
     persistentobject.h \
     persistentattribute.h \
-    dialog_ajouter_livre.h \
-    livre.h
+    dialog_ajouter_livre.h
 
 FORMS += \
         mainwindow.ui \

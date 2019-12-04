@@ -7,8 +7,10 @@
 class persistentObject
 {
 public:
-    persistentObject(QString className);
+    persistentObject(QString className); // Le constructeur
+    ~persistentObject(void);       // Le destructeur.
     void addAttribute(persistentAttribute nouvel_attribut);
+    //void print(void); // Fonction d'affichage de l'objet
     int save();
 
 private:

@@ -1,7 +1,7 @@
 #include "mainwindow.h"
-#include "livre.h"
 #include <QApplication>
 #include <QPushButton>
+#include "persistentobject.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,22 +10,30 @@ int main(int argc, char *argv[])
     //Chargement du pilote
     QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
     //END SQL
-//    QVariant text;
-//    qDebug() << "typeName for first :" << auteur.typeName();
-//    qDebug() << "Type : " << auteur.type();
 
+    QString *point_auteur = new QString("J.K Rowling");
+    QString *point_titre = new QString("Harry Potter et la Coupe de feu");
+    QString *point_isbn = new QString("6271538R5635");
+    int int_annee = 2002;
+    int *point_annee = &int_annee;
 
-
-    const char *point_auteur("J.K Rowling");
-    persistentAttribute auteur(QString("auteur"),QVariant::String, &point_auteur);
-    const char *point_titre("Harry Potter et la Coupe de feu");
-    persistentAttribute titre(QString("titre"),QVariant::String, &point_titre);
-    const char *point_isbn("6271538R5635");
-    persistentAttribute isbn(QString("isbn"),QVariant::String, &point_isbn);
-    int point_annee = 2002;
-    persistentAttribute annee(QString("annee"),QVariant::Int, &point_annee);
+    qDebug() << "adresse pointeur auteur : " << point_auteur;
+    qDebug() << "valeur pointeur auteur : " << *point_auteur;
+    persistentAttribute auteur(QString("auteur"),QVariant::String, point_auteur);
+    persistentAttribute titre(QString("titre"),QVariant::String, point_titre);
+    persistentAttribute isbn(QString("isbn"),QVariant::String, point_isbn);
+    persistentAttribute annee(QString("annee"),QVariant::Int, point_annee);
 
     persistentObject livre(QString("livre"));
+//    // PROBLEME DANS ADD ATTRIBUTE
+    
+    livre.addAttribute(auteur);
+//    livre.addAttribute(titre);
+//    livre.addAttribute(isbn);
+//    livre.addAttribute(annee);
+
+    qDebug() << QString("Attribute");
+
     // JUSQUE LÀ ON EST BONS
 
     //livre.*attributes = QList<attributes*> list({&auteur, &titre, &isbn, &annee});
