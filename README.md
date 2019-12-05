@@ -1,5 +1,3 @@
-# bibliotheque
-
 ### CURRENT SITUTATION
   
 On sait créér une base de données avec le code, l'ouvrir et autre.
