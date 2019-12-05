@@ -1,6 +1,6 @@
 # bibliotheque
 
-###CURRENT SITUTATION
+### CURRENT SITUTATION
   
 On sait créér une base de données avec le code, l'ouvrir et autre.
   
@@ -14,11 +14,11 @@ Les classes persistentAttribute et persistentObject sont utilisables (aka on peu
   
   
   
-###NEXT STEPS
+### NEXT STEPS
   
 Il s'agit à présent de pouvoir ranger les livres dans la base de données. Tout est prêt, il suffit juste de gérer cette connection. A voir ce qui est le plus judicieux pour cela.
   
   
-###FURTHER DOC ON MY WORK
+### FURTHER DOC ON MY WORK
   
 [https://docs.google.com/document/d/1cSQm-nuM7-uKdMx5zj5Wh4WcNE8H0voZ92d3664rXyk/edit?usp=sharing]
