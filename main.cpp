@@ -17,26 +17,16 @@ int main(int argc, char *argv[])
     int int_annee = 2002;
     int *point_annee = &int_annee;
 
-    qDebug() << "adresse pointeur auteur : " << point_auteur;
-    qDebug() << "valeur pointeur auteur : " << *point_auteur;
     persistentAttribute auteur(QString("auteur"),QVariant::String, point_auteur);
     persistentAttribute titre(QString("titre"),QVariant::String, point_titre);
     persistentAttribute isbn(QString("isbn"),QVariant::String, point_isbn);
     persistentAttribute annee(QString("annee"),QVariant::Int, point_annee);
-
     persistentObject livre(QString("livre"));
-//    // PROBLEME DANS ADD ATTRIBUTE
     
     livre.addAttribute(auteur);
-//    livre.addAttribute(titre);
-//    livre.addAttribute(isbn);
-//    livre.addAttribute(annee);
-
-    qDebug() << QString("Attribute");
-
-    // JUSQUE LÀ ON EST BONS
-
-    //livre.*attributes = QList<attributes*> list({&auteur, &titre, &isbn, &annee});
+    livre.addAttribute(titre);
+    livre.addAttribute(isbn);
+    livre.addAttribute(annee);
     
     MainWindow w;
     w.show();
