@@ -32,7 +32,7 @@ void MainWindow::creerBibliotheque()
     qDebug() << QString("debut creerBibliotheque");
 
 //    //Chargement du pilote
-//    QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
+//    QSqlDatabase db = QSqlDatabase::addDatabpoint_anneease(("QSQLITE"));
 
 //    //On demande à l'utilisateur de rentrer un nom de son choix pour la nouvelle bibliothèque
 //    QString dbName_ = QInputDialog::getText(this, "Nouvelle bibliothèque", "Nom de la nouvelle bibliothèque : ", QLineEdit::Normal);
@@ -98,22 +98,10 @@ void MainWindow::sauverBibliothequeSous()
 void MainWindow::ajouterLivre()
 {
     // add row in BDD
-//    QString auteur;
-//    QString titre;
-//    QString ISBN;
-//    int annee;
-//    livre persistentObject(QString auteur, QString titre, QString ISBN, int annee);
-    qDebug() << QString("ajouterLivre");
-    
     // on définit les attributs persistants du livre (un par colonne de la BDD)
     Dialog_ajouter_livre dialog_ajouter_livre;
     dialog_ajouter_livre.setModal(true);
     dialog_ajouter_livre.exec();
-//    persistentAttribute auteur("auteur","TEXT",*);
-//    persistentAttribute titre("titre","TEXT",*);
-//    persistentAttribute isbn("isbn","TEXT",*);
-//    persistentAttribute annee("annee","INT",*);
-    
 }
 
 void MainWindow::retirerLivre()
