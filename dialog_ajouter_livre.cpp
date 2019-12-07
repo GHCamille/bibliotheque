@@ -40,6 +40,10 @@ void Dialog_ajouter_livre::infos_nouveau_livre()
     livre.addAttribute(isbn);
     livre.addAttribute(annee);
 
+    // [PLOT TWIST] les livres sont une donnée persistante, mais la bibliothèque aussi en fait
+
+
+
     // void * = A pointer to void is a "generic" pointer type.
     // A void * can be converted to any other pointer type without an explicit cast.
     // You cannot dereference a void * or do pointer arithmetic with it; you must

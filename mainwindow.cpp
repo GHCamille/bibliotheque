@@ -63,9 +63,8 @@ void MainWindow::creerBibliotheque()
 //        }
 //    }
 //}
+}
 
-//void MainWindow::ouvrirBibliotheque()
-//{
 //    QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
 //    QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Bibliothèques (*.db)");
 //    qDebug() << QString(fichier);
@@ -75,11 +74,9 @@ void MainWindow::creerBibliotheque()
 //    QSqlQuery query(fichier);
 //    QString queryString = "CREATE TABLE content (id varchar(30) primary key, nom text, titre text, ISBN text, annee int);";
 
-}
-
 void MainWindow::ouvrirBibliotheque()
 {
-    // QString fichier = QFileDialog::getSaveFileName(this, "Enregistrer un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
+    QString bibliotheque = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
     qDebug() << QString("ouvrirBibliotheque");
 }
 
@@ -91,7 +88,7 @@ void MainWindow::sauverBibliotheque()
 
 void MainWindow::sauverBibliothequeSous()
 {
-    // QString fichier = QFileDialog::getSaveFileName(this, "Enregistrer un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
+    // QString fichier = QFileDialog::getSaveFileName(this, "Enregistrer un fichier", QString(), "Database (*.db)");
     qDebug() << QString("sauverBibliothequeSous");
 }
 
