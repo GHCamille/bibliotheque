@@ -76,8 +76,45 @@ void MainWindow::creerBibliotheque()
 
 void MainWindow::ouvrirBibliotheque()
 {
-    QString bibliotheque = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
-    qDebug() << QString("ouvrirBibliotheque");
+    QString dbName = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
+    QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
+
+    db.setDatabaseName(dbName);
+    db.open();
+
+    if(!db.isOpen())
+    {
+        QMessageBox::warning(this, "Erreur","Impossible d'ouvrir la bbibliothèque.");
+    }
+    else
+    {
+//        QSqlQuery query(db);
+        QSqlQuery query("SELECT * FROM livre;");
+        while (query.next())
+        {
+            QString db_auteur = query.value(1).toString();
+            QString db_titre = query.value(2).toString();
+            QString db_isbn = query.value(3).toString();
+            int int_annee = query.value(4).toInt();
+
+            QString *point_auteur = new QString(db_auteur);
+            QString *point_titre = new QString(db_titre);
+            QString *point_isbn = new QString(db_isbn);
+            int *point_annee = &int_annee;
+
+            persistentAttribute auteur(QString("auteur"),QVariant::String, point_auteur);
+            persistentAttribute titre(QString("titre"),QVariant::String, point_titre);
+            persistentAttribute isbn(QString("isbn"),QVariant::String, point_isbn);
+            persistentAttribute annee(QString("annee"),QVariant::Int, point_annee);
+            persistentObject livre(QString("livre"));
+
+            livre.addAttribute(auteur);
+            livre.addAttribute(titre);
+            livre.addAttribute(isbn);
+            livre.addAttribute(annee);
+        }
+//            persistentObject bibliotheque(QString("bibliotheque"));
+    }
 }
 
 void MainWindow::sauverBibliotheque()
