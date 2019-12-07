@@ -30,6 +30,8 @@ void MainWindow::creerBibliotheque()
 {
     //Creer une bibliotheque devra revenir a creer une nouvelle BDD
     qDebug() << QString("debut creerBibliotheque");
+    QString dbName = QFileDialog::getSaveFileName(NULL, "Ouvrir une nouvelle bibliothèque.","/home/camille/Git/bibliotheque/", "Database (*.db)");
+    QList<persistentObject*> bibliotheque;
 
 //    //Chargement du pilote
 //    QSqlDatabase db = QSqlDatabase::addDatabpoint_anneease(("QSQLITE"));
@@ -79,6 +81,8 @@ void MainWindow::ouvrirBibliotheque()
     QString dbName = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
     QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
 
+    QList<persistentObject*> bibliotheque;
+
     db.setDatabaseName(dbName);
     db.open();
 
@@ -88,7 +92,6 @@ void MainWindow::ouvrirBibliotheque()
     }
     else
     {
-//        QSqlQuery query(db);
         QSqlQuery query("SELECT * FROM livre;");
         while (query.next())
         {
@@ -112,8 +115,11 @@ void MainWindow::ouvrirBibliotheque()
             livre.addAttribute(titre);
             livre.addAttribute(isbn);
             livre.addAttribute(annee);
+
+            //Decomment and crash
+            //list[i] = p;
+            bibliotheque.append(&livre);
         }
-//            persistentObject bibliotheque(QString("bibliotheque"));
     }
 }
 

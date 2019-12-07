@@ -40,7 +40,8 @@ void Dialog_ajouter_livre::infos_nouveau_livre()
     livre.addAttribute(isbn);
     livre.addAttribute(annee);
 
-    // [PLOT TWIST] les livres sont une donnée persistante, mais la bibliothèque aussi en fait
+    // [PLOT TWIST] les livres sont une donnée persistante, la bibliothèque plus ou moins aussi,
+//    mais il faudrait qu'elle soit en fait une QList de livres
 
 
 
