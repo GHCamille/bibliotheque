@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "persistentobject.h"
+#include "bibliotheque.h"
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QDialog>
@@ -27,8 +28,8 @@ public:
     ~MainWindow();
 
 public slots:
-    QList<persistentObject*> creerBibliotheque();
-    QList<persistentObject*> ouvrirBibliotheque();
+    void creerBibliotheque(bibliotheque bib);
+    void ouvrirBibliotheque(bibliotheque bib);
     void sauverBibliotheque();
     void sauverBibliothequeSous();
     void ajouterLivre();

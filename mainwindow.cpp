@@ -3,15 +3,15 @@
 #include "persistentobject.h"
 #include "dialog_ajouter_livre.h"
 #include "ui_dialog_ajouter_livre.h"
-
+#include "bibliotheque.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QObject::connect(ui->actionNouveau, SIGNAL(triggered()), this, SLOT(creerBibliotheque()));
-    QObject::connect(ui->actionOuvrir, SIGNAL(triggered()), this, SLOT(ouvrirBibliotheque()));
+    QObject::connect(ui->actionNouveau, SIGNAL(triggered()), this, SLOT(creerBibliotheque(bibliotheque bib)));
+    QObject::connect(ui->actionOuvrir, SIGNAL(triggered()), this, SLOT(ouvrirBibliotheque(bibliotheque bib)));
     QObject::connect(ui->actionSauvegarder, SIGNAL(triggered()), this, SLOT(sauverBibliotheque()));
     QObject::connect(ui->actionSauvegarder_sous, SIGNAL(triggered()), this, SLOT(sauverBibliothequeSous()));
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(fermerAppli()));
@@ -26,21 +26,19 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-QList<persistentObject*> MainWindow::creerBibliotheque()
+void MainWindow::creerBibliotheque(bibliotheque bib)
 {
-    QString dbName = QFileDialog::getSaveFileName(NULL, "Ouvrir une nouvelle bibliothèque.","/home/camille/Git/bibliotheque/", "Database (*.db)");
-    QList<persistentObject*> bibliotheque;
-    return bibliotheque;
+    QString fichier = QFileDialog::getSaveFileName(NULL, "Ouvrir une nouvelle bibliothèque.","/home/camille/Git/bibliotheque/", "Database (*.db)");
+    bib.dbName = fichier;
 }
 
-QList<persistentObject*> MainWindow::ouvrirBibliotheque()
+void MainWindow::ouvrirBibliotheque(bibliotheque bib)
 {
-    QString dbName = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
+    QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
+    bib.dbName = fichier;
     QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
 
-    QList<persistentObject*> bibliotheque;
-
-    db.setDatabaseName(dbName);
+    db.setDatabaseName(fichier);
     db.open();
 
     if(!db.isOpen())
@@ -72,10 +70,10 @@ QList<persistentObject*> MainWindow::ouvrirBibliotheque()
             livre.addAttribute(titre);
             livre.addAttribute(isbn);
             livre.addAttribute(annee);
-            bibliotheque.append(&livre);
+            bib.liste_livres.append(&livre);
+//                    append(&livre);
         }
     }
-    return bibliotheque;
 }
 
 void MainWindow::sauverBibliotheque()

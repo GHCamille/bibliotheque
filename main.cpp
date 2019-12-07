@@ -2,13 +2,30 @@
 #include <QApplication>
 #include <QPushButton>
 #include "persistentobject.h"
+#include "bibliotheque.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    //BEGIN SQL
-    //Chargement du pilote
-    QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
+    bibliotheque bib();
+    MainWindow w;
+    w.show();
+
+    return app.exec();
+}
+
+
+
+
+
+
+
+
+
+
+//BEGIN SQL
+//Chargement du pilote
+//    QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
     //END SQL
 
 //    QString *point_auteur = new QString("J.K Rowling");
@@ -22,14 +39,9 @@ int main(int argc, char *argv[])
 //    persistentAttribute isbn(QString("isbn"),QVariant::String, point_isbn);
 //    persistentAttribute annee(QString("annee"),QVariant::Int, point_annee);
 //    persistentObject livre(QString("livre"));
-    
+
 //    livre.addAttribute(auteur);
 //    livre.addAttribute(titre);
 //    livre.addAttribute(isbn);
 //    livre.addAttribute(annee);
-    
-    MainWindow w;
-    w.show();
 
-    return app.exec();
-}
