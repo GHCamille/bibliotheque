@@ -26,61 +26,56 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::creerBibliotheque()
+QList<persistentObject*> MainWindow::creerBibliotheque()
 {
-    //Creer une bibliotheque devra revenir a creer une nouvelle BDD
-    qDebug() << QString("debut creerBibliotheque");
-
-//    //Chargement du pilote
-//    QSqlDatabase db = QSqlDatabase::addDatabpoint_anneease(("QSQLITE"));
-
-//    //On demande à l'utilisateur de rentrer un nom de son choix pour la nouvelle bibliothèque
-//    QString dbName_ = QInputDialog::getText(this, "Nouvelle bibliothèque", "Nom de la nouvelle bibliothèque : ", QLineEdit::Normal);
-//    QString dbName = dbName_ + ".db";
-
-//    //Si le nom de la db est déjà pris, l'utilisateur doit en changer.
-//    if( QFile::exists(dbName))
-//    {
-//        QMessageBox::warning(this, "Erreur nom","Une bibliothèque de même nom existe déjà. \n Merci de choisir un autre nom.");
-//    }
-//    else
-//    {
-//        db.setDatabaseName(dbName);
-//        db.open();
-//        if(!db.isOpen())
-//        {
-//            QMessageBox::warning(this, "Erreur","Impossible d'ouvrir la base de données.");
-//        }
-//        else
-//        {
-//            QSqlQuery query(db);
-//            QString queryString = "CREATE TABLE content (id varchar(30) primary key, nom text, titre text, ISBN text, annee int);";
-//            if (!query.exec(queryString))
-//            {
-//                QMessageBox::warning(this, "Erreur","Impossible de créer la base de données.");
-//                qDebug() << query.lastError();
-//            }
-//        }
-//    }
-//}
-
-//void MainWindow::ouvrirBibliotheque()
-//{
-//    QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
-//    QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Bibliothèques (*.db)");
-//    qDebug() << QString(fichier);
-//    QString dbName = fichier ;
-//    db.setDatabaseName(dbName);
-//    db.open();
-//    QSqlQuery query(fichier);
-//    QString queryString = "CREATE TABLE content (id varchar(30) primary key, nom text, titre text, ISBN text, annee int);";
-
+    QString dbName = QFileDialog::getSaveFileName(NULL, "Ouvrir une nouvelle bibliothèque.","/home/camille/Git/bibliotheque/", "Database (*.db)");
+    QList<persistentObject*> bibliotheque;
+    return bibliotheque;
 }
 
-void MainWindow::ouvrirBibliotheque()
+QList<persistentObject*> MainWindow::ouvrirBibliotheque()
 {
-    // QString fichier = QFileDialog::getSaveFileName(this, "Enregistrer un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
-    qDebug() << QString("ouvrirBibliotheque");
+    QString dbName = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
+    QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
+
+    QList<persistentObject*> bibliotheque;
+
+    db.setDatabaseName(dbName);
+    db.open();
+
+    if(!db.isOpen())
+    {
+        QMessageBox::warning(this, "Erreur","Impossible d'ouvrir la bbibliothèque.");
+    }
+    else
+    {
+        QSqlQuery query("SELECT * FROM livre;");
+        while (query.next())
+        {
+            QString db_auteur = query.value(1).toString();
+            QString db_titre = query.value(2).toString();
+            QString db_isbn = query.value(3).toString();
+            int int_annee = query.value(4).toInt();
+
+            QString *point_auteur = new QString(db_auteur);
+            QString *point_titre = new QString(db_titre);
+            QString *point_isbn = new QString(db_isbn);
+            int *point_annee = &int_annee;
+
+            persistentAttribute auteur(QString("auteur"),QVariant::String, point_auteur);
+            persistentAttribute titre(QString("titre"),QVariant::String, point_titre);
+            persistentAttribute isbn(QString("isbn"),QVariant::String, point_isbn);
+            persistentAttribute annee(QString("annee"),QVariant::Int, point_annee);
+            persistentObject livre(QString("livre"));
+
+            livre.addAttribute(auteur);
+            livre.addAttribute(titre);
+            livre.addAttribute(isbn);
+            livre.addAttribute(annee);
+            bibliotheque.append(&livre);
+        }
+    }
+    return bibliotheque;
 }
 
 void MainWindow::sauverBibliotheque()
@@ -91,7 +86,7 @@ void MainWindow::sauverBibliotheque()
 
 void MainWindow::sauverBibliothequeSous()
 {
-    // QString fichier = QFileDialog::getSaveFileName(this, "Enregistrer un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
+    // QString fichier = QFileDialog::getSaveFileName(this, "Enregistrer un fichier", QString(), "Database (*.db)");
     qDebug() << QString("sauverBibliothequeSous");
 }
 
