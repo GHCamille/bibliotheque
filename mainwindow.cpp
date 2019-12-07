@@ -26,57 +26,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::creerBibliotheque()
+QList<persistentObject*> MainWindow::creerBibliotheque()
 {
-    //Creer une bibliotheque devra revenir a creer une nouvelle BDD
-    qDebug() << QString("debut creerBibliotheque");
     QString dbName = QFileDialog::getSaveFileName(NULL, "Ouvrir une nouvelle bibliothèque.","/home/camille/Git/bibliotheque/", "Database (*.db)");
     QList<persistentObject*> bibliotheque;
-
-//    //Chargement du pilote
-//    QSqlDatabase db = QSqlDatabase::addDatabpoint_anneease(("QSQLITE"));
-
-//    //On demande à l'utilisateur de rentrer un nom de son choix pour la nouvelle bibliothèque
-//    QString dbName_ = QInputDialog::getText(this, "Nouvelle bibliothèque", "Nom de la nouvelle bibliothèque : ", QLineEdit::Normal);
-//    QString dbName = dbName_ + ".db";
-
-//    //Si le nom de la db est déjà pris, l'utilisateur doit en changer.
-//    if( QFile::exists(dbName))
-//    {
-//        QMessageBox::warning(this, "Erreur nom","Une bibliothèque de même nom existe déjà. \n Merci de choisir un autre nom.");
-//    }
-//    else
-//    {
-//        db.setDatabaseName(dbName);
-//        db.open();
-//        if(!db.isOpen())
-//        {
-//            QMessageBox::warning(this, "Erreur","Impossible d'ouvrir la base de données.");
-//        }
-//        else
-//        {
-//            QSqlQuery query(db);
-//            QString queryString = "CREATE TABLE content (id varchar(30) primary key, nom text, titre text, ISBN text, annee int);";
-//            if (!query.exec(queryString))
-//            {
-//                QMessageBox::warning(this, "Erreur","Impossible de créer la base de données.");
-//                qDebug() << query.lastError();
-//            }
-//        }
-//    }
-//}
+    return bibliotheque;
 }
 
-//    QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
-//    QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Bibliothèques (*.db)");
-//    qDebug() << QString(fichier);
-//    QString dbName = fichier ;
-//    db.setDatabaseName(dbName);
-//    db.open();
-//    QSqlQuery query(fichier);
-//    QString queryString = "CREATE TABLE content (id varchar(30) primary key, nom text, titre text, ISBN text, annee int);";
-
-void MainWindow::ouvrirBibliotheque()
+QList<persistentObject*> MainWindow::ouvrirBibliotheque()
 {
     QString dbName = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
     QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
@@ -115,12 +72,10 @@ void MainWindow::ouvrirBibliotheque()
             livre.addAttribute(titre);
             livre.addAttribute(isbn);
             livre.addAttribute(annee);
-
-            //Decomment and crash
-            //list[i] = p;
             bibliotheque.append(&livre);
         }
     }
+    return bibliotheque;
 }
 
 void MainWindow::sauverBibliotheque()
