@@ -16,13 +16,6 @@ int main(int argc, char *argv[])
 
 
 
-
-
-
-
-
-
-
 //BEGIN SQL
 //Chargement du pilote
 //    QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
