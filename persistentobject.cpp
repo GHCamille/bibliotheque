@@ -14,7 +14,6 @@ persistentObject::~persistentObject()
 
 void persistentObject::addAttribute(persistentAttribute nouvel_attribut)
 {
-    qDebug() << "--- ADD ATTRIBUTE ---" ;
     attributes->append(&nouvel_attribut);
 }
 

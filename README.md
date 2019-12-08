@@ -14,8 +14,23 @@ Les classes persistentAttribute et persistentObject sont utilisables (aka on peu
   
 ### NEXT STEPS
   
-Il s'agit à présent de pouvoir ranger les livres dans la base de données. Tout est prêt, il suffit juste de gérer cette connection. A voir ce qui est le plus judicieux pour cela.
+#### Dans QT:
   
+Bibliothèque = QList de livres
+  
+Livre = objet persistant constitué d'un auteur, d'un titre, d'un code isbn, d'une année de publication (attributs)
+  
+Attribut = attibut persistant
+  
+
+#### Dans la base de données:
+  
+Bibliothèque = base de donnée
+  
+Livre = ligne de la base de donnée, rangée dans la table "livre"
+  
+Attribut = élément d'une ligne d'une colonne (un auteur est dans la colonne "auteur" blablabla)
+    
   
 ### FURTHER DOC ON MY WORK
   

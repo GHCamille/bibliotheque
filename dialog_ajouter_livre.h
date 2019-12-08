@@ -1,6 +1,7 @@
 #ifndef DIALOG_AJOUTER_LIVRE_H
 #define DIALOG_AJOUTER_LIVRE_H
 
+#include "persistentobject.h"
 #include <QDialog>
 
 namespace Ui {
