@@ -10,8 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QObject::connect(ui->actionNouveau, SIGNAL(triggered()), this, SLOT(creerBibliotheque(bibliotheque)));
-    QObject::connect(ui->actionOuvrir, SIGNAL(triggered()), this, SLOT(ouvrirBibliotheque(bibliotheque)));
+    QObject::connect(ui->actionNouveau, SIGNAL(triggered()), this, SLOT(creerBibliotheque()));
+    QObject::connect(ui->actionOuvrir, SIGNAL(triggered()), this, SLOT(ouvrirBibliotheque()));
     QObject::connect(ui->actionSauvegarder, SIGNAL(triggered()), this, SLOT(sauverBibliotheque()));
     QObject::connect(ui->actionSauvegarder_sous, SIGNAL(triggered()), this, SLOT(sauverBibliothequeSous()));
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(fermerAppli()));
@@ -26,16 +26,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::creerBibliotheque(bibliotheque bib)
+void MainWindow::creerBibliotheque()
 {
     QString fichier = QFileDialog::getSaveFileName(NULL, "Ouvrir une nouvelle bibliothèque.","/home/camille/Git/bibliotheque/", "Database (*.db)");
-    bib.dbName = fichier;
+//    bib.dbName = fichier;
 }
 
-void MainWindow::ouvrirBibliotheque(bibliotheque bib)
+void MainWindow::ouvrirBibliotheque()
 {
     QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
-    bib.dbName = fichier;
+//    bib.dbName = fichier;
     QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
 
     db.setDatabaseName(fichier);
@@ -70,7 +70,7 @@ void MainWindow::ouvrirBibliotheque(bibliotheque bib)
             livre.addAttribute(titre);
             livre.addAttribute(isbn);
             livre.addAttribute(annee);
-            bib.liste_livres.append(&livre);
+//            bib.liste_livres.append(&livre);
 //                    append(&livre);
         }
     }

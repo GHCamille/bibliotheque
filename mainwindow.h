@@ -28,8 +28,8 @@ public:
     ~MainWindow();
 
 public slots:
-    void creerBibliotheque(bibliotheque bib);
-    void ouvrirBibliotheque(bibliotheque bib);
+    void creerBibliotheque();
+    void ouvrirBibliotheque();
     void sauverBibliotheque();
     void sauverBibliothequeSous();
     void ajouterLivre();
