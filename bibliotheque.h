@@ -9,6 +9,10 @@ public:
     bibliotheque(QString nom, QList<persistentObject*> liste);
     QString dbName;
     QList <persistentObject*> liste_livres;
+
+public slots:
+    void setNameBib(QString name_bib);
+
 };
 
 #endif // BIBLIOTHEQUE_H

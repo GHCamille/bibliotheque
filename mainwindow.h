@@ -23,9 +23,14 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+private:
+    Ui::MainWindow *ui;
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    bibliotheque bib;
+
 
 public slots:
     void creerBibliotheque();
@@ -38,8 +43,9 @@ public slots:
     void documentation();
     void unProbleme();
 
-private:
-    Ui::MainWindow *ui;
+signals:
+    void setName_w(QString name);
+
 };
 
 #endif // MAINWINDOW_H
