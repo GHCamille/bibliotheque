@@ -13,7 +13,10 @@ public:
     //void print(void); // Fonction d'affichage de l'objet
     int save();
     QList<persistentAttribute*> getAttributes();
-
+    QString getAuteur();
+    QString getTitre();
+    QString getISBN();
+    int getAnnee();
 private:
     QList<persistentAttribute*> *attributes;
     QString *table;

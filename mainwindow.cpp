@@ -33,13 +33,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::creerBibliotheque()
 {
-    QString nom_fichier = QFileDialog::getSaveFileName(NULL, "Ouvrir une nouvelle bibliothèque.","/home/camille/Git/bibliotheque/", "Database (*.db)");
+    QString nom_fichier = QFileDialog::getSaveFileName(NULL, "Ouvrir une nouvelle bibliothèque.","C:/Users/Utilisateur/Documents/Cours/Qt_Projet", "Database (*.db)");
     bib.dbName = nom_fichier;
 }
 
 void MainWindow::ouvrirBibliotheque()
 {
-    QString nom_fichier = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
+    QString nom_fichier = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "C:/Users/Utilisateur/Documents/Cours/Qt_Projet", "Database (*.db)");
     qDebug() << "Le nom du fichier : " << nom_fichier;
     bib.dbName = nom_fichier;
     {
@@ -82,6 +82,7 @@ void MainWindow::ouvrirBibliotheque()
         }
     }
     QSqlDatabase::removeDatabase("openLibConnection");
+    updateBookList();
 }
 
 void MainWindow::sauverBibliotheque()
@@ -150,86 +151,51 @@ void MainWindow::fermerAppli()
 
 void MainWindow::updateBookList()
 {
-    qDebug() << QString("AM IN UPDATE MAGGLE");
+
+    qDebug() << QString("JE rentre dans update");
 
     ui->tableWidget->clearContents();
-    ui->tableWidget->setRowCount(1);
 
-    QString *point_auteur = new QString("J.K Rowling");
-    QString *point_titre = new QString("Harry Potter et la Coupe de feu");
-    QString *point_isbn = new QString("6271538R5635");
-    int int_annee = 2002;
-    int *point_annee = &int_annee;
+    QList<persistentObject*> liste_livres_total = bib.liste_livres;
 
-    persistentAttribute auteur(QString("auteur"),QVariant::String, point_auteur);
-    persistentAttribute titre(QString("titre"),QVariant::String, point_titre);
-    persistentAttribute isbn(QString("isbn"),QVariant::String, point_isbn);
-    persistentAttribute annee(QString("annee"),QVariant::Int, point_annee);
-    persistentObject livre(QString("livre"));
+    ui->tableWidget->setRowCount(liste_livres_total.count());
 
-    livre.addAttribute(auteur);
-    livre.addAttribute(titre);
-    livre.addAttribute(isbn);
-    livre.addAttribute(annee);
+   // qDebug() << "Biblio : " << bib;
+    qDebug() << "Liste de livre : " << liste_livres_total;
+    qDebug() << "NOMBRE DE LIVRE DANS LA BIBLIO : " << liste_livres_total.count();
 
-    QVariant type_auteur = livre.getAttributes()[0]->type;
-    QString machin = "";
+    for (int i=0; i < liste_livres_total.count(); i++)
+    {
+        persistentObject livre = *liste_livres_total.at(i);
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(livre.getAuteur()));
+        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(livre.getTitre()));
+        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(livre.getISBN()));
+        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(livre.getAnnee())));
+    }
 
-    if (type_auteur == QVariant::String)
-       {
-           QString *donneeString = static_cast<QString*>(livre.getAttributes()[0]->data); // cast from void* to QString*
-           qDebug() << "INSIDE valeur pointeur attribut : " << *donneeString;
-           machin = *donneeString;
-       }
+//    QString *point_auteur = new QString("J.K Rowling");
+//    QString *point_titre = new QString("Harry Potter et la Coupe de feu");
+//    QString *point_isbn = new QString("6271538R5635");
+//    int int_annee = 2002;
+//    int *point_annee = &int_annee;
 
+//    persistentAttribute auteur(QString("auteur"),QVariant::String, point_auteur);
+//    persistentAttribute titre(QString("titre"),QVariant::String, point_titre);
+//    persistentAttribute isbn(QString("isbn"),QVariant::String, point_isbn);
+//    persistentAttribute annee(QString("annee"),QVariant::Int, point_annee);
+//    persistentObject livre(QString("livre"));
 
-    QVariant type_titre = livre.getAttributes()[1]->type;
-    QString truc = "";
+//    livre.addAttribute(auteur);
+//    livre.addAttribute(titre);
+//    livre.addAttribute(isbn);
+//    livre.addAttribute(annee);
 
-    if (type_titre == QVariant::String)
-       {
-           QString *donneeString = static_cast<QString*>(livre.getAttributes()[1]->data); // cast from void* to QString*
-           qDebug() << "INSIDE valeur pointeur attribut : " << *donneeString;
-           truc = *donneeString;
-       }
-
-    QVariant type_isbn = livre.getAttributes()[1]->type;
-    QString chose = 0;
-
-    if (type_titre == QVariant::String)
-       {
-           QString *donneeString = static_cast<QString*>(livre.getAttributes()[2]->data); // cast from void* to QString*
-           qDebug() << "INSIDE valeur pointeur attribut : " << *donneeString;
-           chose = *donneeString;
-       }
-    if (type_titre == QVariant::Int)
-       {
-           int *donneeInt = static_cast<int*>(livre.getAttributes()[3]->data); // cast from void* to int*
-           qDebug() << "INSIDE valeur pointeur attribut : " << *donneeInt;
-           chose = *donneeInt;
-       }
-
-
-    //QString auteur_test = livre.getAttributes()[0]->data;
-
-    ui->tableWidget->setItem(0, 0, new QTableWidgetItem(machin));
-    ui->tableWidget->setItem(0, 1, new QTableWidgetItem(truc));
-    ui->tableWidget->setItem(0, 2, new QTableWidgetItem(chose));
-    ui->tableWidget->setItem(0, 3, new QTableWidgetItem("moi aussi"));
+//    ui->tableWidget->setItem(0, 0, new QTableWidgetItem(livre.getAuteur()));
+//    ui->tableWidget->setItem(0, 1, new QTableWidgetItem(livre.getTitre()));
+//    ui->tableWidget->setItem(0, 2, new QTableWidgetItem(livre.getISBN()));
+//    ui->tableWidget->setItem(0, 3, new QTableWidgetItem(QString::number(livre.getAnnee())));
 
     qDebug() << QString("JE SORS PRENDS LA CLEF");
-
-//    QList<Book> books = library.getBooks();
-//    ui->tableWidget->setRowCount(books.count());
-
-//    for (int i=0; i < books.count(); i++)
-//    {
-//        Book book = books.at(i);
-//        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(*book.getTitle()));
-//        ui->tableWidget->setItem(i, 1, new QTableWidgetItem((*book.getAuthors()).join(", ")));
-//        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(*book.getPublicationYear())));
-//        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(*book.getISBN()));
-//    }
 }
 
 void MainWindow::documentation()
