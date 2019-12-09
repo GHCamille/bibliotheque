@@ -16,6 +16,8 @@ public:
     // convert it to a pointer to a complete data type first.
     persistentAttribute();
     persistentAttribute(QString nom, QVariant::Type attributType, void *);
+
+
 };
 
 

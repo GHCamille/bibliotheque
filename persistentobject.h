@@ -12,6 +12,7 @@ public:
     void addAttribute(persistentAttribute nouvel_attribut);
     //void print(void); // Fonction d'affichage de l'objet
     int save();
+    QList<persistentAttribute*> getAttributes();
 
 private:
     QList<persistentAttribute*> *attributes;
