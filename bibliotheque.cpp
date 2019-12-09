@@ -12,3 +12,8 @@ bibliotheque::bibliotheque(QString nom, QList<persistentObject*> liste)
     dbName = nom;
     liste_livres = liste;
 }
+
+void bibliotheque::setNameBib(QString name_bib)
+{
+    dbName = name_bib;
+}

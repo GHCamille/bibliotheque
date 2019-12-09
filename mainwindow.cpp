@@ -7,11 +7,15 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    // il faut créér la bibliotheque (= espace de stockage des livres)
+    bib()
 {
     ui->setupUi(this);
-    QObject::connect(ui->actionNouveau, SIGNAL(triggered()), this, SLOT(creerBibliotheque(bibliotheque)));
-    QObject::connect(ui->actionOuvrir, SIGNAL(triggered()), this, SLOT(ouvrirBibliotheque(bibliotheque)));
+
+    // On fait les connexions IHM->fonctions :
+    QObject::connect(ui->actionNouveau, SIGNAL(triggered()), this, SLOT(creerBibliotheque())); // mettre creer bibliotheque dans classe bibliotheque OU ALORS faire que creer bibliotheque déclenche une fonction de la classe bibliotheque qui est en fait un signal que l'on connecte au à un slot qui def le nom de la bibliotheque dans le main
+    QObject::connect(ui->actionOuvrir, SIGNAL(triggered()), this, SLOT(ouvrirBibliotheque()));
     QObject::connect(ui->actionSauvegarder, SIGNAL(triggered()), this, SLOT(sauverBibliotheque()));
     QObject::connect(ui->actionSauvegarder_sous, SIGNAL(triggered()), this, SLOT(sauverBibliothequeSous()));
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(fermerAppli()));
@@ -26,19 +30,18 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::creerBibliotheque(bibliotheque bib)
+
+void MainWindow::creerBibliotheque()
 {
-    QString fichier = QFileDialog::getSaveFileName(NULL, "Ouvrir une nouvelle bibliothèque.","/home/camille/Git/bibliotheque/", "Database (*.db)");
-    bib.dbName = fichier;
+    QString nom_fichier = QFileDialog::getSaveFileName(NULL, "Ouvrir une nouvelle bibliothèque.","/home/camille/Git/bibliotheque/", "Database (*.db)");
+    bib.dbName = nom_fichier;
 }
 
-void MainWindow::ouvrirBibliotheque(bibliotheque bib)
+void MainWindow::ouvrirBibliotheque()
 {
-    QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
-    bib.dbName = fichier;
+    QString nom_fichier = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque/", "Database (*.db)");
+    bib.dbName = nom_fichier;
     QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
-
-    db.setDatabaseName(fichier);
     db.open();
 
     if(!db.isOpen())
@@ -71,7 +74,6 @@ void MainWindow::ouvrirBibliotheque(bibliotheque bib)
             livre.addAttribute(isbn);
             livre.addAttribute(annee);
             bib.liste_livres.append(&livre);
-//                    append(&livre);
         }
     }
 }
@@ -92,6 +94,7 @@ void MainWindow::ajouterLivre()
 {
     // add row in BDD
     // on définit les attributs persistants du livre (un par colonne de la BDD)
+    // il va falloir ajouter le livre à la QList de la bibliotheque walala
     Dialog_ajouter_livre dialog_ajouter_livre;
     dialog_ajouter_livre.setModal(true);
     dialog_ajouter_livre.exec();
@@ -100,6 +103,7 @@ void MainWindow::ajouterLivre()
 void MainWindow::retirerLivre()
 {
     // delete row in BDD
+    // il va falloir le supprimer de la QList de la bibliotheque
     qDebug() << QString("retirerLivre");
 }
 
