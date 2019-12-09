@@ -76,12 +76,37 @@ void MainWindow::ouvrirBibliotheque()
             bib.liste_livres.append(&livre);
         }
     }
+
+    db.close();
+    QSqlDatabase::removeDatabase("QSQLITE");
 }
 
 void MainWindow::sauverBibliotheque()
 {
-    // QString fichier = QFileDialog::getSaveFileName(this, "Enregistrer un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
     qDebug() << QString("sauverBibliotheque");
+    QString nom_fichier = bib.dbName;
+
+    QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"));
+    db.open();
+    db.setDatabaseName(nom_fichier);
+
+    if(!db.isOpen())
+    {
+        QMessageBox::warning(this, "Erreur","Impossible d'ouvrir la bibliothèque.");
+    }
+    else
+    {
+        for (persistentObject livre: bib.liste_livres)
+        {
+           for (persistentAttribute attrib: livre.attributes)
+           {
+              qDebug() << "Hello " << attrib.data;
+           }
+        }
+    }
+    db.close();
+    QSqlDatabase::removeDatabase("QSQLITE");
+
 }
 
 void MainWindow::sauverBibliothequeSous()
