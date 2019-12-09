@@ -37,6 +37,7 @@ public slots:
     void ouvrirBibliotheque();
     void sauverBibliotheque();
     void sauverBibliothequeSous();
+
     void ajouterLivre();
     void retirerLivre();
     void fermerAppli();
