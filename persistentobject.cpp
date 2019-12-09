@@ -21,3 +21,8 @@ int persistentObject::save()
 {
     return 0;
 }
+
+QList<persistentAttribute*> persistentObject::getAttributes()
+{
+    return *attributes;
+}
