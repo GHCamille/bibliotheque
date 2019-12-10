@@ -53,7 +53,7 @@ void Dialog_ajouter_livre::infos_nouveau_livre()
     // convert it to a pointer to a complete data type first.
 }
 
-persistentObject Dialog_ajouter_livre::getLivre()
+persistentObject* Dialog_ajouter_livre::getLivre()
 {
-    return livre;
+    return &livre;
 }

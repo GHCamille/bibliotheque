@@ -147,13 +147,9 @@ void MainWindow::ajouterLivre()
     dialog_ajouter_livre.setModal(true);
     dialog_ajouter_livre.exec();
 
-    //persistentObject* livre_a_ajouter;
-    //livre_a_ajouter =
-    qDebug()<< dialog_ajouter_livre.getLivre().getAuteur();
-//    qDebug()<< "HELLO IS IT ME YOU ARE LOOKING FOR";
-//    qDebug()<<livre_a_ajouter;
-//    qDebug()<<(*livre_a_ajouter).getAuteur();
-//    bib.liste_livres.append(livre_a_ajouter);
+    persistentObject* livre_a_ajouter;
+    livre_a_ajouter = dialog_ajouter_livre.getLivre();
+    bib.liste_livres.append(livre_a_ajouter);
     majListeLivres();
 }
 
@@ -177,8 +173,6 @@ void MainWindow::majListeLivres()
     ui->tableWidget->clearContents();
 
     QList<persistentObject*> liste_livres_amaj = bib.liste_livres;
-    qDebug() << bib.liste_livres.at(1);
-    qDebug() << liste_livres_amaj;
     ui->tableWidget->setRowCount(liste_livres_amaj.count());
 
     for (int i=0; i < liste_livres_amaj.count(); i++)

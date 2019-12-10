@@ -15,7 +15,7 @@ class Dialog_ajouter_livre : public QDialog
 public:
     explicit Dialog_ajouter_livre(QWidget *parent = 0);
     ~Dialog_ajouter_livre();
-    persistentObject getLivre();
+    persistentObject* getLivre();
 
 public slots:
     void infos_nouveau_livre();
