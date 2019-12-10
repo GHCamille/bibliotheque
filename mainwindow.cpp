@@ -53,17 +53,16 @@ void MainWindow::creerBibliotheque()
 
 void MainWindow::ouvrirBibliotheque()
 {
-    QString nom_fichier = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "C:/Users/Utilisateur/Documents/Cours/Qt_Projet", "Database (*.db)");
+    QString nom_fichier = QFileDialog::getOpenFileName(this, "Ouvrir une bibliothèque", "/home/camille/Git/bibliotheque", "Database (*.db)"); // /home/camille/Git/bibliotheque
     qDebug() << "Le nom du fichier : " << nom_fichier;
     bib.dbName = nom_fichier;
     {
         QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"),"openLibConnection");
         db.setDatabaseName(nom_fichier);
         db.open();
-
         if(!db.isOpen())
         {
-            QMessageBox::warning(this, "Erreur","Impossible d'ouvrir la bbibliothèque.");
+            QMessageBox::warning(this, "Erreur","Impossible d'ouvrir la bibliothèque.");
         }
         else
         {
@@ -103,9 +102,6 @@ void MainWindow::ouvrirBibliotheque()
 void MainWindow::sauverBibliotheque()
 {
     qDebug() << QString("sauverBibliotheque");
-    
-//    updateBookList();
-
     QString nom_fichier = bib.dbName;
 
     {
@@ -119,70 +115,54 @@ void MainWindow::sauverBibliotheque()
         }
         else
         {
-            qDebug() << "NOMBRE DE LIVRES = " << bib.liste_livres.count();
+            QSqlQuery query_del("DROP TABLE livre;",db);
+            if(!query_del.exec())
+            {
+                qDebug() << query_del.lastError().text();
+            }
+            else
+            {
+                qDebug( "Table dropped." );
+            }
+
+            QSqlQuery query_create("CREATE TABLE IF NOT EXISTS livre (id int, "
+                            "nom text, titre text, ISBN text, annee int);",db);
+            if(!query_create.exec())
+            {
+                qDebug() << query_create.lastError().text();
+            }
+            else
+            {
+                qDebug( "Table created." );
+            }
+
             for (int i=0; i < bib.liste_livres.count(); i++)
             {
                 persistentObject livre = *bib.liste_livres.at(i);
 
-//                QString livre_auteur = livre.getAuteur();
-//                QString livre_titre = livre.getTitre();
-//                QString livre_isbn = livre.getISBN();
-//                int livre_annee = livre.getAnnee();
+                QString livre_auteur = livre.getAuteur();
+                QString livre_titre = livre.getTitre();
+                QString livre_isbn = livre.getISBN();
+                int livre_annee = livre.getAnnee();
 
-                QString livre_auteur = QString("J.K Rowling");
-                QString livre_titre = QString("Harry Potter et le Prisonnier d'Azkaban");
-                QString livre_isbn = QString("6271538R5635");
-                int livre_annee = 2002;
-
-                QSqlQuery query(db);
-
-//                QString tableName = db.tables().at(0);
-//                QSqlRecord record = db.driver()->record(tableName);
-//                int nbfields = record.count();
-//                qDebug() << "NOMBRE DE COL" << nbfields;
-//                qDebug() << "COLONNE 1 " << record.field(0);
-//                qDebug() << "COLONNE 2 " << record.field(1);
-//                qDebug() << "COLONNE 3 " << record.field(2);
-//                qDebug() << "COLONNE 4 " << record.field(3);
-//                qDebug() << "COLONNE 5 " << record.field(4);
-
-//                bool result = query.prepare("INSERT INTO livre(id, nom, titre, ISBN, annee) "
-//                                            "VALUES (:id, :auteur, :titre, :isbn, :annee)");
-//                qDebug() << "PREPARATION DE LA QUERY" << result;
-
-                query.prepare("INSERT INTO livre(id, nom, titre, ISBN, annee) "
+                QSqlQuery query_insert(db);
+                query_insert.prepare("INSERT INTO livre(id, nom, titre, ISBN, annee) "
                                             "VALUES (:id, :auteur, :titre, :isbn, :annee)");
-                query.bindValue(":id", 2);
-                query.bindValue(":auteur", "George R. R. Martin");
-                query.bindValue(":titre", "A Game of Thrones");
-                query.bindValue(":isbn", "FYDFYQVXKFH");
-                query.bindValue(":annee", 1996);
+                query_insert.bindValue(":id", i+1);
+                query_insert.bindValue(":auteur", livre_auteur);
+                query_insert.bindValue(":titre", livre_titre);
+                query_insert.bindValue(":isbn", livre_isbn);
+                query_insert.bindValue(":annee", livre_annee);
 
-//                bool result = query.prepare("INSERT INTO livre(id, auteur, titre, isbn, annee) "
-//                                            "VALUES (?,?,?,?,?)");
-//                qDebug() << "PREPARATION DE LA QUERY" << result;
-//                query.addBindValue(3);
-//                query.addBindValue("J.K Rowling");
-//                query.addBindValue("J.K Rowling");
-//                query.addBindValue("J.K Rowling");
-//                query.addBindValue(3452);
-
-
-                if(!query.exec())
+                if(!query_insert.exec())
                 {
-                    qDebug() << query.lastError().text();
+                    qDebug() << query_insert.lastError().text();
                 }
                 else
                 {
-                    qDebug( "Inserted!" );
+                    qDebug( "Book added into db." );
                 }
-                // SAVE BIBIOTHEQUE
             }
-//            if (QFile::exists(nom_fichier))
-//            {
-//                QFile::remove(nom_fichier);
-//            }
-
         }
         db.close();
     }
@@ -193,15 +173,78 @@ void MainWindow::sauverBibliotheque()
 
 void MainWindow::sauverBibliothequeSous()
 {
-    // QString fichier = QFileDialog::getSaveFileName(this, "Enregistrer un fichier", QString(), "Database (*.db)");
     qDebug() << QString("sauverBibliothequeSous");
+    QString nom_fichier = QFileDialog::getSaveFileName(this, "Enregistrer le fichier sous ...", QString(), "Database (*.db)");
+
+    {
+        QSqlDatabase db = QSqlDatabase::addDatabase(("QSQLITE"),"saveAsLibConnection");
+        db.setDatabaseName(nom_fichier);
+        db.open();
+
+        if(!db.isOpen())
+        {
+            QMessageBox::warning(this, "Erreur","Impossible d'ouvrir la bibliothèque.");
+        }
+        else
+        {
+            QSqlQuery query_del("DROP TABLE livre;",db);
+            if(!query_del.exec())
+            {
+                qDebug() << query_del.lastError().text();
+            }
+            else
+            {
+                qDebug( "Table dropped." );
+            }
+
+            QSqlQuery query_create("CREATE TABLE IF NOT EXISTS livre (id int, "
+                            "nom text, titre text, ISBN text, annee int);",db);
+            if(!query_create.exec())
+            {
+                qDebug() << query_create.lastError().text();
+            }
+            else
+            {
+                qDebug( "Table created." );
+            }
+
+            for (int i=0; i < bib.liste_livres.count(); i++)
+            {
+                persistentObject livre = *bib.liste_livres.at(i);
+
+                QString livre_auteur = livre.getAuteur();
+                QString livre_titre = livre.getTitre();
+                QString livre_isbn = livre.getISBN();
+                int livre_annee = livre.getAnnee();
+
+                QSqlQuery query_insert(db);
+                query_insert.prepare("INSERT INTO livre(id, nom, titre, ISBN, annee) "
+                                            "VALUES (:id, :auteur, :titre, :isbn, :annee)");
+                query_insert.bindValue(":id", i+1);
+                query_insert.bindValue(":auteur", livre_auteur);
+                query_insert.bindValue(":titre", livre_titre);
+                query_insert.bindValue(":isbn", livre_isbn);
+                query_insert.bindValue(":annee", livre_annee);
+
+                if(!query_insert.exec())
+                {
+                    qDebug() << query_insert.lastError().text();
+                }
+                else
+                {
+                    qDebug( "Book added into db." );
+                }
+            }
+        }
+        db.close();
+    }
+    QSqlDatabase::removeDatabase("saveAsLibConnection");
+    qDebug() << "Connection closed";
+
 }
 
 void MainWindow::ajouterLivre()
 {
-    // add row in BDD
-    // on définit les attributs persistants du livre (un par colonne de la BDD)
-    // il va falloir ajouter le livre à la QList de la bibliotheque walala
     Dialog_ajouter_livre dialog_ajouter_livre;
     dialog_ajouter_livre.setModal(true);
     dialog_ajouter_livre.exec();
@@ -210,9 +253,9 @@ void MainWindow::ajouterLivre()
 
 void MainWindow::retirerLivre()
 {
-    // delete row in BDD
-    // il va falloir le supprimer de la QList de la bibliotheque
-    qDebug() << QString("retirerLivre");
+    Dialog_ajouter_livre dialog_ajouter_livre;
+    dialog_ajouter_livre.setModal(true);
+    dialog_ajouter_livre.exec();
     updateBookList();
 }
 
@@ -224,12 +267,10 @@ void MainWindow::fermerAppli()
 
 void MainWindow::updateBookList()
 {
-
     ui->tableWidget->clearContents();
 
     QList<persistentObject*> liste_livres_total = bib.liste_livres;
     ui->tableWidget->setRowCount(liste_livres_total.count());
-
     for (int i=0; i < liste_livres_total.count(); i++)
     {
         persistentObject livre = *liste_livres_total.at(i);
