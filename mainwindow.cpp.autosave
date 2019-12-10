@@ -121,19 +121,22 @@ void MainWindow::sauverBibliotheque()
 
                 QSqlQuery query(db);
 
-                QString tableName = db.tables().at(0);
-                QSqlRecord record = db.driver()->record(tableName);
-                int nbfields = record.count();
-                qDebug() << "NOMBRE DE COL" << nbfields;
-                qDebug() << "COLONNE 1 " << record.field(0);
-                qDebug() << "COLONNE 2 " << record.field(1);
-                qDebug() << "COLONNE 3 " << record.field(2);
-                qDebug() << "COLONNE 4 " << record.field(3);
-                qDebug() << "COLONNE 5 " << record.field(4);
+//                QString tableName = db.tables().at(0);
+//                QSqlRecord record = db.driver()->record(tableName);
+//                int nbfields = record.count();
+//                qDebug() << "NOMBRE DE COL" << nbfields;
+//                qDebug() << "COLONNE 1 " << record.field(0);
+//                qDebug() << "COLONNE 2 " << record.field(1);
+//                qDebug() << "COLONNE 3 " << record.field(2);
+//                qDebug() << "COLONNE 4 " << record.field(3);
+//                qDebug() << "COLONNE 5 " << record.field(4);
 
-                bool result = query.prepare("INSERT INTO livre(id, nom, titre, ISBN, annee) "
+//                bool result = query.prepare("INSERT INTO livre(id, nom, titre, ISBN, annee) "
+//                                            "VALUES (:id, :auteur, :titre, :isbn, :annee)");
+//                qDebug() << "PREPARATION DE LA QUERY" << result;
+                
+                query.prepare("INSERT INTO livre(id, nom, titre, ISBN, annee) "
                                             "VALUES (:id, :auteur, :titre, :isbn, :annee)");
-                qDebug() << "PREPARATION DE LA QUERY" << result;
                 query.bindValue(":id", 3);
                 query.bindValue(":auteur", "J.K Rowling");
                 query.bindValue(":titre", "J.K Rowling");
