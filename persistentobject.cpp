@@ -29,61 +29,24 @@ QList<persistentAttribute*> persistentObject::getAttributes()
 
 QString persistentObject::getAuteur()
 {
-    QString auteur;
     QList<persistentAttribute*> temp = *attributes;
-    QVariant type_auteur = temp[0]->type;
-
-    if (type_auteur == QVariant::String)
-       {
-           QString *donneeString = static_cast<QString*>(temp[0]->data); // cast from void* to QString*
-           qDebug() << "INSIDE valeur pointeur attribut : " << *donneeString;
-           auteur = *donneeString;
-       }
-    return auteur;
+    return *static_cast<QString*>(temp[0]->data);
 }
 
 QString persistentObject::getTitre()
 {
-    QString titre;
     QList<persistentAttribute*> temp = *attributes;
-    QVariant type_titre = temp[0]->type;
-
-    if (type_titre == QVariant::String)
-       {
-           QString *donneeString = static_cast<QString*>(temp[1]->data); // cast from void* to QString*
-           qDebug() << "INSIDE valeur pointeur attribut : " << *donneeString;
-           titre = *donneeString;
-       }
-    return titre;
+    return *static_cast<QString*>(temp[1]->data);
 }
 
 QString persistentObject::getISBN()
 {
-    QString ISBN;
     QList<persistentAttribute*> temp = *attributes;
-    QVariant type_ISBN = temp[0]->type;
-
-    if (type_ISBN == QVariant::String)
-       {
-           QString *donneeString = static_cast<QString*>(temp[2]->data); // cast from void* to QString*
-           qDebug() << "INSIDE valeur pointeur attribut : " << *donneeString;
-           ISBN = *donneeString;
-       }
-    return ISBN;
+    return *static_cast<QString*>(temp[2]->data);
 }
 
 int persistentObject::getAnnee()
 {
-    int annee;
     QList<persistentAttribute*> temp = *attributes;
-    QVariant type_annee = temp[0]->type;
-
-    if (type_annee == QVariant::Int)
-       {
-           int* donneeInt = static_cast<int*>(temp[3]->data); // cast from void* to QString*
-           qDebug() << "BLABLABLASTATIC : " << static_cast<int*>(temp[3]->data);
-           qDebug() << "INSIDE valeur pointeur attribut : " << *donneeInt;
-           annee = *donneeInt;
-       }
-    return annee;
+    return *static_cast<int*>(temp[3]->data);
 }

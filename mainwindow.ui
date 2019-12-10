@@ -6,27 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>594</width>
-    <height>351</height>
+    <width>601</width>
+    <height>371</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>592</width>
+     <height>315</height>
+    </size>
+   </property>
    <widget class="QTableWidget" name="tableWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>581</width>
-      <height>311</height>
-     </rect>
+    <property name="enabled">
+     <bool>true</bool>
     </property>
     <property name="sizePolicy">
      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>1</horstretch>
-      <verstretch>1</verstretch>
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
      </sizepolicy>
     </property>
     <property name="minimumSize">
@@ -68,8 +72,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>594</width>
-     <height>22</height>
+     <width>601</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">

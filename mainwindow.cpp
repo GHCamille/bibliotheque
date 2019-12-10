@@ -23,6 +23,20 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionRetirer_un_livre, SIGNAL(triggered()), this, SLOT(retirerLivre()));
     QObject::connect(ui->actionDocumentation, SIGNAL(triggered()), this, SLOT(documentation()));
     QObject::connect(ui->actionUn_probl_me, SIGNAL(triggered()), this, SLOT(unProbleme()));
+
+    // Setup book list
+    QStringList entetes;
+    entetes << "Titre" << "Auteur(s)" << "Année" << "ISBN";
+    ui->tableWidget->setColumnCount(entetes.count());
+    ui->tableWidget->setHorizontalHeaderLabels(entetes);
+    ui->tableWidget->verticalHeader()->setVisible(true);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget->setShowGrid(true);
+    ui->tableWidget->clearContents();
+    ui->tableWidget->setUpdatesEnabled(true);
 }
 
 MainWindow::~MainWindow()
@@ -134,6 +148,7 @@ void MainWindow::ajouterLivre()
     Dialog_ajouter_livre dialog_ajouter_livre;
     dialog_ajouter_livre.setModal(true);
     dialog_ajouter_livre.exec();
+    updateBookList();
 }
 
 void MainWindow::retirerLivre()
@@ -141,6 +156,7 @@ void MainWindow::retirerLivre()
     // delete row in BDD
     // il va falloir le supprimer de la QList de la bibliotheque
     qDebug() << QString("retirerLivre");
+    updateBookList();
 }
 
 void MainWindow::fermerAppli()
@@ -152,17 +168,10 @@ void MainWindow::fermerAppli()
 void MainWindow::updateBookList()
 {
 
-    qDebug() << QString("JE rentre dans update");
-
     ui->tableWidget->clearContents();
 
     QList<persistentObject*> liste_livres_total = bib.liste_livres;
-
     ui->tableWidget->setRowCount(liste_livres_total.count());
-
-   // qDebug() << "Biblio : " << bib;
-    qDebug() << "Liste de livre : " << liste_livres_total;
-    qDebug() << "NOMBRE DE LIVRE DANS LA BIBLIO : " << liste_livres_total.count();
 
     for (int i=0; i < liste_livres_total.count(); i++)
     {
@@ -172,30 +181,14 @@ void MainWindow::updateBookList()
         ui->tableWidget->setItem(i, 2, new QTableWidgetItem(livre.getISBN()));
         ui->tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(livre.getAnnee())));
     }
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget->verticalHeader()->setVisible(true);
+    //ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+    ui->tableWidget->setShowGrid(true);
+    ui->tableWidget->setUpdatesEnabled(true);
 
-//    QString *point_auteur = new QString("J.K Rowling");
-//    QString *point_titre = new QString("Harry Potter et la Coupe de feu");
-//    QString *point_isbn = new QString("6271538R5635");
-//    int int_annee = 2002;
-//    int *point_annee = &int_annee;
-
-//    persistentAttribute auteur(QString("auteur"),QVariant::String, point_auteur);
-//    persistentAttribute titre(QString("titre"),QVariant::String, point_titre);
-//    persistentAttribute isbn(QString("isbn"),QVariant::String, point_isbn);
-//    persistentAttribute annee(QString("annee"),QVariant::Int, point_annee);
-//    persistentObject livre(QString("livre"));
-
-//    livre.addAttribute(auteur);
-//    livre.addAttribute(titre);
-//    livre.addAttribute(isbn);
-//    livre.addAttribute(annee);
-
-//    ui->tableWidget->setItem(0, 0, new QTableWidgetItem(livre.getAuteur()));
-//    ui->tableWidget->setItem(0, 1, new QTableWidgetItem(livre.getTitre()));
-//    ui->tableWidget->setItem(0, 2, new QTableWidgetItem(livre.getISBN()));
-//    ui->tableWidget->setItem(0, 3, new QTableWidgetItem(QString::number(livre.getAnnee())));
-
-    qDebug() << QString("JE SORS PRENDS LA CLEF");
 }
 
 void MainWindow::documentation()
