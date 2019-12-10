@@ -137,11 +137,11 @@ void MainWindow::sauverBibliotheque()
 
                 query.prepare("INSERT INTO livre(id, nom, titre, ISBN, annee) "
                                             "VALUES (:id, :auteur, :titre, :isbn, :annee)");
-                query.bindValue(":id", 3);
-                query.bindValue(":auteur", "J.K Rowling");
-                query.bindValue(":titre", "J.K Rowling");
-                query.bindValue(":isbn", "J.K Rowling");
-                query.bindValue(":annee", 3452);
+                query.bindValue(":id", 2);
+                query.bindValue(":auteur", "George R. R. Martin");
+                query.bindValue(":titre", "A Game of Thrones");
+                query.bindValue(":isbn", "FYDFYQVXKFH");
+                query.bindValue(":annee", 1996);
 
 //                bool result = query.prepare("INSERT INTO livre(id, auteur, titre, isbn, annee) "
 //                                            "VALUES (?,?,?,?,?)");
