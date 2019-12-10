@@ -24,19 +24,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->actionDocumentation, SIGNAL(triggered()), this, SLOT(documentation()));
     QObject::connect(ui->actionUn_probl_me, SIGNAL(triggered()), this, SLOT(unProbleme()));
 
-    // Setup book list
-    QStringList entetes;
-    entetes << "Titre" << "Auteur(s)" << "Année" << "ISBN";
-    ui->tableWidget->setColumnCount(entetes.count());
-    ui->tableWidget->setHorizontalHeaderLabels(entetes);
-    ui->tableWidget->verticalHeader()->setVisible(true);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
-    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->tableWidget->setShowGrid(true);
+    QStringList titresColonnes;
+    titresColonnes << "Auteur" << "Titre" << "ISBN" << "Année";
+    ui->tableWidget->setColumnCount(titresColonnes.count());
+    ui->tableWidget->setHorizontalHeaderLabels(titresColonnes);
     ui->tableWidget->clearContents();
-    ui->tableWidget->setUpdatesEnabled(true);
+    ui->tableWidget->setShowGrid(true);
+    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -67,6 +64,10 @@ void MainWindow::ouvrirBibliotheque()
         }
         else
         {
+
+            QList<persistentObject *>* persistentObjectList = new QList<persistentObject *>();
+
+
             QSqlQuery query("SELECT * FROM livre;", db);
             while (query.next())
             {
@@ -90,20 +91,21 @@ void MainWindow::ouvrirBibliotheque()
                 livre.addAttribute(titre);
                 livre.addAttribute(isbn);
                 livre.addAttribute(annee);
+
                 bib.liste_livres.append(&livre);
             }
             db.close();
         }
     }
     QSqlDatabase::removeDatabase("openLibConnection");
-    updateBookList();
+    majListeLivres();
 }
 
 void MainWindow::sauverBibliotheque()
 {
     qDebug() << QString("sauverBibliotheque");
     
-    updateBookList();
+    majListeLivres();
 
     QString nom_fichier = bib.dbName;
 
@@ -148,7 +150,7 @@ void MainWindow::ajouterLivre()
     Dialog_ajouter_livre dialog_ajouter_livre;
     dialog_ajouter_livre.setModal(true);
     dialog_ajouter_livre.exec();
-    updateBookList();
+    majListeLivres();
 }
 
 void MainWindow::retirerLivre()
@@ -156,7 +158,7 @@ void MainWindow::retirerLivre()
     // delete row in BDD
     // il va falloir le supprimer de la QList de la bibliotheque
     qDebug() << QString("retirerLivre");
-    updateBookList();
+    majListeLivres();
 }
 
 void MainWindow::fermerAppli()
@@ -165,30 +167,27 @@ void MainWindow::fermerAppli()
     this->close();
 }
 
-void MainWindow::updateBookList()
+void MainWindow::majListeLivres()
 {
 
     ui->tableWidget->clearContents();
 
-    QList<persistentObject*> liste_livres_total = bib.liste_livres;
-    ui->tableWidget->setRowCount(liste_livres_total.count());
+    QList<persistentObject*> liste_livres_amaj = bib.liste_livres;
+    qDebug() << bib.liste_livres.at(1);
+    qDebug() << liste_livres_amaj;
+    ui->tableWidget->setRowCount(liste_livres_amaj.count());
 
-    for (int i=0; i < liste_livres_total.count(); i++)
+    for (int i=0; i < liste_livres_amaj.count(); i++)
     {
-        persistentObject livre = *liste_livres_total.at(i);
-        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(livre.getAuteur()));
-        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(livre.getTitre()));
-        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(livre.getISBN()));
-        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(livre.getAnnee())));
+        persistentObject* livre = liste_livres_amaj.at(i);
+        qDebug() << livre->getAuteur();
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(livre->getAuteur()));
+        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(livre->getTitre()));
+        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(livre->getISBN()));
+        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(livre->getAnnee())));
     }
-    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->tableWidget->verticalHeader()->setVisible(true);
-    //ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
-    ui->tableWidget->setShowGrid(true);
-    ui->tableWidget->setUpdatesEnabled(true);
 
+    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
 }
 
 void MainWindow::documentation()

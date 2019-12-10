@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>601</width>
-    <height>371</height>
+    <width>621</width>
+    <height>390</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,60 +19,47 @@
    </property>
    <property name="maximumSize">
     <size>
-     <width>592</width>
-     <height>315</height>
+     <width>16777215</width>
+     <height>16777215</height>
     </size>
    </property>
-   <widget class="QTableWidget" name="tableWidget">
-    <property name="enabled">
-     <bool>true</bool>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetNoConstraint</enum>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>581</width>
-      <height>311</height>
-     </size>
-    </property>
-    <attribute name="horizontalHeaderCascadingSectionResizes">
-     <bool>true</bool>
-    </attribute>
-    <attribute name="verticalHeaderCascadingSectionResizes">
-     <bool>true</bool>
-    </attribute>
-    <column>
-     <property name="text">
-      <string>Auteur</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Titre</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>ISBN</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Année</string>
-     </property>
-    </column>
-   </widget>
+    <item>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>581</width>
+        <height>311</height>
+       </size>
+      </property>
+      <attribute name="horizontalHeaderCascadingSectionResizes">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderCascadingSectionResizes">
+       <bool>true</bool>
+      </attribute>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>601</width>
+     <width>621</width>
      <height>21</height>
     </rect>
    </property>

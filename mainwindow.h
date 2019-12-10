@@ -26,7 +26,7 @@ class MainWindow : public QMainWindow
 private:
     Ui::MainWindow *ui;
 
-    void updateBookList();
+    void majListeLivres();
 
 public:
     explicit MainWindow(QWidget *parent = 0);
